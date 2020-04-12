@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Camera : MonoBehaviour
+public class CameraController : MonoBehaviour
 {
     // store a public reference to the Player game object, so we can refer to it's Transform
 	public GameObject player;
