@@ -35,7 +35,7 @@ public class BulletController : MonoBehaviour
             float x = Mathf.Cos(angle) * bulletRadius;
             float y = Mathf.Sin(angle) * bulletRadius;
             Vector3 newPos = transform.position + new Vector3(x, y, 0);   
-            bulletTailPos.Add(newPos);       
+            bulletTailPos.Add(newPos);    
             darknessTilemap.SetTile(darknessTilemap.WorldToCell(newPos), null);
         }
              

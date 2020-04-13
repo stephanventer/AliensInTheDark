@@ -145,5 +145,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   normalTile: {fileID: 11400000, guid: 07b3fe255ba3b3d438a4001b7c0fcaff, type: 2}
   bulletTail: 50
-  bulletRadius: 0.5
-  circleResolution: 15
+  bulletRadius: 0.75
+  circleResolution: 20
