@@ -143,7 +143,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de8d314c9a4565d459b7e8d8612d0437, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  normalTile: {fileID: 11400000, guid: 07b3fe255ba3b3d438a4001b7c0fcaff, type: 2}
+  darknessTile: {fileID: 11400000, guid: 07b3fe255ba3b3d438a4001b7c0fcaff, type: 2}
+  blueLightTile: {fileID: 11400000, guid: a5898fc5fe062f346bedd8f0040d55d2, type: 2}
   bulletTail: 50
   bulletRadius: 0.75
   circleResolution: 20

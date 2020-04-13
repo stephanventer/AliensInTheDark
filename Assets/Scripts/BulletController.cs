@@ -7,7 +7,9 @@ public class BulletController : MonoBehaviour
 {
     private GameObject darknessGameObject;
     private Tilemap darknessTilemap;
-    public Tile normalTile;
+    
+    public Tile darknessTile;
+    public Tile blueLightTile;
     public int bulletTail;
     public float bulletRadius;
     public int circleResolution;
@@ -19,16 +21,21 @@ public class BulletController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        darknessGameObject = GameObject.Find("Tilemap_Darkness");
-        if(darknessGameObject != null) {
-            darknessTilemap = darknessGameObject.GetComponent<Tilemap>();
-        }
+
+
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-         
+        darknessGameObject = GameObject.Find("Tilemap_Darkness");
+        if(darknessGameObject != null) {
+            darknessTilemap = darknessGameObject.GetComponent<Tilemap>();
+        }
+        bulletTailPos.Add(transform.position);    
+        darknessTilemap.SetTile(darknessTilemap.WorldToCell(transform.position), blueLightTile);
+
         for (int i = 1; i < circleResolution; i++)
         {
             float angle = i * Mathf.PI * 2 / circleResolution;
@@ -36,7 +43,7 @@ public class BulletController : MonoBehaviour
             float y = Mathf.Sin(angle) * bulletRadius;
             Vector3 newPos = transform.position + new Vector3(x, y, 0);   
             bulletTailPos.Add(newPos);    
-            darknessTilemap.SetTile(darknessTilemap.WorldToCell(newPos), null);
+            darknessTilemap.SetTile(darknessTilemap.WorldToCell(newPos), blueLightTile);
         }
              
         count++;
@@ -44,7 +51,16 @@ public class BulletController : MonoBehaviour
         {
             for (int i = 0; i < circleResolution-1; i++)
             {
-                darknessTilemap.SetTile(darknessTilemap.WorldToCell(bulletTailPos[i]), normalTile);
+                GameObject playerGameObject = GameObject.Find("Player");
+                if(playerGameObject != null) {
+                    Vector3 playerPos = playerGameObject.transform.position;
+                    float rad = playerGameObject.GetComponent<PlayerController>().playerLightRadius - 0.2f;
+                    if(bulletTailPos[i].x > playerPos.x + rad||
+                    bulletTailPos[i].x < playerPos.x - rad ||
+                    bulletTailPos[i].y > playerPos.y + rad ||
+                    bulletTailPos[i].y < playerPos.y - rad )
+                        darknessTilemap.SetTile(darknessTilemap.WorldToCell(bulletTailPos[i]), darknessTile);
+                }
             }
             bulletTailPos.RemoveRange(0, circleResolution-1);
         }
@@ -54,7 +70,7 @@ public class BulletController : MonoBehaviour
     {
         foreach(var pos in bulletTailPos)
         {
-            darknessTilemap.SetTile(darknessTilemap.WorldToCell(pos), normalTile);
+            darknessTilemap.SetTile(darknessTilemap.WorldToCell(pos), darknessTile);
         }
     }
 }

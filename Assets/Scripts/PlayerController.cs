@@ -24,10 +24,7 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        darknessGameObject = GameObject.Find("Tilemap_Darkness");
-        if(darknessGameObject != null) {
-            darknessTilemap = darknessGameObject.GetComponent<Tilemap>();
-        }
+
 
         previousPlayerLight = new List<Vector3>();
     } 
@@ -48,7 +45,10 @@ public class PlayerController : MonoBehaviour
         transform.position = transform.position + movement * Time.deltaTime * playerSpeed;
 
 
-
+        darknessGameObject = GameObject.Find("Tilemap_Darkness");
+        if(darknessGameObject != null) {
+            darknessTilemap = darknessGameObject.GetComponent<Tilemap>();
+        }
 
         if(previousPlayerLight.Count > 0)
         {
