@@ -73,4 +73,10 @@ public class BulletController : MonoBehaviour
             darknessTilemap.SetTile(darknessTilemap.WorldToCell(pos), darknessTile);
         }
     }
+
+    
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        Debug.Log("Bullet Collision!!");
+    }
 }

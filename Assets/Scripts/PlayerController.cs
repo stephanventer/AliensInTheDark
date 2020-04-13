@@ -24,17 +24,13 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
-
         previousPlayerLight = new List<Vector3>();
     } 
 
     // Update is called once per frame
     void Update()
     {
-        Vector3 movement = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0.0f);
-
-        
+        Vector3 movement = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0.0f);     
 
         AimAndShoot();
 
@@ -91,7 +87,6 @@ public class PlayerController : MonoBehaviour
             if (Input.GetKeyDown ("space") || Input.GetMouseButtonDown (0)) {
                 GameObject bullet  = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
                 bullet.GetComponent<Rigidbody2D>().velocity = shootingDirection * bulletSpeed; //Set bullet speed.
-                Debug.Log(shootingDirection);
                 bullet.transform.Rotate(0.0f, 0.0f, Mathf.Atan2(shootingDirection.y, shootingDirection.x) * Mathf.Rad2Deg);
 
                 //Destroy bullet after 10s seconds.
