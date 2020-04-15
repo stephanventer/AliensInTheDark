@@ -15,14 +15,22 @@ public class PlayerController : MonoBehaviour
     public GameObject bulletPrefab;
     public Camera cam;
     public Tile normalTile;
+    public float health;
 
     private GameObject darknessGameObject;
+    private GameObject gameoverGameObject;
     private Tilemap darknessTilemap;
     private List<Vector3> previousPlayerLight;
 
     // Start is called before the first frame update
     void Start()
     {
+        gameoverGameObject = GameObject.FindWithTag("gameover");
+        if(gameoverGameObject != null) {
+            //gameoverGameObject.GetComponent<Tilemap>();
+            gameoverGameObject.SetActive(false);
+        }
+
         previousPlayerLight = new List<Vector3>();
     } 
 
@@ -31,13 +39,16 @@ public class PlayerController : MonoBehaviour
     {
         Vector3 movement = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0.0f);     
 
-        AimAndShoot();
+        
 
         animator.SetFloat("Horizontal", movement.x);
         animator.SetFloat("Vertical", movement.y);
         animator.SetFloat("Magnitude", movement.magnitude);
         
-        transform.position = transform.position + movement * Time.deltaTime * playerSpeed;
+        if(health >= 0) {
+            transform.position = transform.position + movement * Time.deltaTime * playerSpeed;
+            AimAndShoot();
+        }
 
         darknessGameObject = GameObject.Find("Tilemap_Darkness");
         if(darknessGameObject != null) {
@@ -71,9 +82,7 @@ public class PlayerController : MonoBehaviour
     {
         Vector3 objectPos = cam.WorldToScreenPoint(transform.position);
         Vector3 aim = new Vector3(Input.mousePosition.x - objectPos.x, Input.mousePosition.y - objectPos.y, 0.0f);
-
-        
-        
+      
         if(aim.magnitude > 0) {
             aim.Normalize();
             aim *= 1.2f; //Set distance of aim cursor from player.
@@ -91,21 +100,27 @@ public class PlayerController : MonoBehaviour
                 Destroy(bullet, bulletTimeout);
             }
         }
-
     }
 
     void OnTriggerEnter2D(Collider2D col)
     {
         if(col.gameObject.tag == "enemy")
-        {
-            Destroy(col.gameObject, 0.2f);
+        {  
             var healthBar = GameObject.FindWithTag("health").GetComponent<RectTransform>();
             Vector3 temp = healthBar.localScale;
-            temp.x =  temp.x - 0.5f;
-            if(temp.x >= 0) {
-                healthBar.localScale = temp;
-                Debug.Log("Health: " + temp.x);
+            health =  temp.x - 0.5f;
+            
+            if(health <= 0) {
+                gameoverGameObject.SetActive(true);
             }
+
+            if(health >= 0) {
+                temp.x = health;
+                healthBar.localScale = temp;
+                Destroy(col.gameObject, 0.2f);
+            }
+            
+
         }
     }
 }

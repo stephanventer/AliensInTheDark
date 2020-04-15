@@ -9,6 +9,7 @@ TagManager:
   - player
   - scoretext
   - health
+  - gameover
   layers:
   - Default
   - TransparentFX

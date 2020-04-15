@@ -26,8 +26,8 @@ public class SpawnController : MonoBehaviour
     {
         if(timeBetweenSpawnsCount <= 0)
         {
-            randomX = Random.Range(-20, 20);
-            randomY = Random.Range(-20, 20);
+            randomX = Random.Range(-33, 33);
+            randomY = Random.Range(-23, 23);
             spawnPoint.x = randomX;
             spawnPoint.y = randomY;
             Instantiate(enemy, spawnPoint, Quaternion.identity);
