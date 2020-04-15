@@ -18,7 +18,6 @@ public class PlayerController : MonoBehaviour
 
     private GameObject darknessGameObject;
     private Tilemap darknessTilemap;
-    
     private List<Vector3> previousPlayerLight;
 
     // Start is called before the first frame update
@@ -39,7 +38,6 @@ public class PlayerController : MonoBehaviour
         animator.SetFloat("Magnitude", movement.magnitude);
         
         transform.position = transform.position + movement * Time.deltaTime * playerSpeed;
-
 
         darknessGameObject = GameObject.Find("Tilemap_Darkness");
         if(darknessGameObject != null) {
@@ -96,8 +94,18 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    void OnCollisionEnter2D(Collision2D collision)
+    void OnTriggerEnter2D(Collider2D col)
     {
-        Debug.Log("Player Collision Triggered");
+        if(col.gameObject.tag == "enemy")
+        {
+            Destroy(col.gameObject, 0.2f);
+            var healthBar = GameObject.FindWithTag("health").GetComponent<RectTransform>();
+            Vector3 temp = healthBar.localScale;
+            temp.x =  temp.x - 0.5f;
+            if(temp.x >= 0) {
+                healthBar.localScale = temp;
+                Debug.Log("Health: " + temp.x);
+            }
+        }
     }
 }

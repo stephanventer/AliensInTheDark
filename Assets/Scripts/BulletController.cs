@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -13,7 +14,6 @@ public class BulletController : MonoBehaviour
     public int bulletTail;
     public float bulletRadius;
     public int circleResolution;
-
     
     List<Vector3> bulletTailPos = new List<Vector3>();
     int count = 0;
@@ -21,7 +21,7 @@ public class BulletController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        this.GetComponent<AudioSource>().Play();
 
         
     }
@@ -66,7 +66,7 @@ public class BulletController : MonoBehaviour
         }
     }
 
-    public void OnDestroy()
+    void OnDestroy()
     {
         foreach(var pos in bulletTailPos)
         {
@@ -75,8 +75,17 @@ public class BulletController : MonoBehaviour
     }
 
     
-    void OnCollisionEnter2D(Collision2D collision)
+    void OnTriggerEnter2D(Collider2D col)
     {
-        Debug.Log("Bullet Collision!!");
+        if(col.gameObject.tag == "enemy")
+        {
+            Destroy(col.gameObject, 0.5f);
+
+            //Set score
+            var scoreText = GameObject.FindWithTag("scoretext").GetComponent<UnityEngine.UI.Text>();
+            int score = Convert.ToInt32(scoreText.text);
+            score++;
+            scoreText.text = score.ToString("00000");
+        }
     }
 }
