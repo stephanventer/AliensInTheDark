@@ -25,6 +25,8 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        health = 5f;
+
         gameoverGameObject = GameObject.FindWithTag("gameover");
         if(gameoverGameObject != null) {
             //gameoverGameObject.GetComponent<Tilemap>();
@@ -45,7 +47,7 @@ public class PlayerController : MonoBehaviour
         animator.SetFloat("Vertical", movement.y);
         animator.SetFloat("Magnitude", movement.magnitude);
         
-        if(health >= 0) {
+        if(health > 0) {
             transform.position = transform.position + movement * Time.deltaTime * playerSpeed;
             AimAndShoot();
         }
@@ -119,8 +121,6 @@ public class PlayerController : MonoBehaviour
                 healthBar.localScale = temp;
                 Destroy(col.gameObject, 0.2f);
             }
-            
-
         }
     }
 }
